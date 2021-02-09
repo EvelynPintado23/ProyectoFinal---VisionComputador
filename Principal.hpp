@@ -90,30 +90,8 @@ class Prueba{
 		bool calibrated = false;
 		bool calibrated1 = false;
 
-		const int alpha_slider_max1 = 179;
-		const int alpha_slider_max2 = 255;
-		const int alpha_slider_max3 = 255;
-		const int alpha_slider_max4 = 179;
-		const int alpha_slider_max5 = 255;
-		const int alpha_slider_max6 = 255;
-		const int alpha_slider_max7 = 100;
-		const int alpha_slider_max8 = 100;
-		const int alpha_slider_max9 = 100;
-		const int alpha_slider_max10 = 100;
-		const int alpha_slider_max11 = 100;
-		const int alpha_slider_max12 = 100;
-		int alpha_slider1 = 0;
-		int alpha_slider2 = 0;
-		int alpha_slider3 = 0;
-		int alpha_slider4 = 0;
-		int alpha_slider5 = 0;
-		int alpha_slider6 = 0;
-		int alpha_slider7 = 0;
-		int alpha_slider8 = 0; 
-		int alpha_slider9 = 0;
-		int alpha_slider10 = 0;
-		int alpha_slider11 = 0;
-		int alpha_slider12 = 0;
+		
+    
 		double alpha1;
 		double alpha2;
 		double alpha3;
