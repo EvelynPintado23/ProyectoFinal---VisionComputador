@@ -33,7 +33,8 @@ using namespace std;
     int alpha_slider12 = 0;
         
 //-----------------------------------------------------------------
- Mat frame, hsv, frameOut, handMask, foreground, fingerCountDebug;
+ Mat frame, hsv, frameOut, handMask, foreground, fingerCountDebug,prueba;
+
 
 int v=0;
 void on_trackbarHmin( int , void *) {
@@ -43,9 +44,7 @@ void on_trackbarHmin( int , void *) {
     //Mat elemento = getStructuringElement(MORPH_CROSS, Size(alpha_slider+1,alpha_slider+1), Point(-1,-1));
     // Aplicamos la operación de dilatación
     //morphologyEx(imagen, frame, MORPH_DILATE,elemento);
-    cvtColor(hsv,hsv ,COLOR_BGR2HSV);
-   
-    inRange(hsv, Scalar(alpha_slider1,alpha_slider2,alpha_slider3),Scalar(alpha_slider4,alpha_slider5,alpha_slider6),hsv);
+
     
 }
 
@@ -161,7 +160,7 @@ int main(int, char**) {
 
 	VideoCapture videoCapture(0);
 
-    Mat frame, frameOut, handMask, foreground, fingerCountDebug;
+    //Mat frame, frameOut, handMask, foreground, fingerCountDebug;
     Prueba skinDetector, backgroundRemover, faceDetector, fingerCount;
     Prueba num;
 
@@ -229,10 +228,20 @@ int main(int, char**) {
         
         while (3==3) {
             videoCapture >> frame;
-            hsv=frame;
+            cvtColor(frame,prueba ,COLOR_BGR2HSV);
+            inRange(prueba, Scalar(1,1,1), Scalar(100,100,100), hsv);
+
+            //hsv=frame;
             frameOut = frame.clone();
 
-
+            Mat elemento = getStructuringElement(MORPH_CROSS, Size(alpha_slider_max5-alpha_slider5+1,alpha_slider_max5-alpha_slider5+1), Point(-1,-1));
+            cvtColor(hsv,hsv ,COLOR_BGR2HSV);
+            GaussianBlur(hsv,hsv,Size(9,9),2,2);
+            cout<<hsv.channels()<<endl;
+            //inRange(hsv, Scalar(1,1,1), Scalar(100,100,100), hsv);
+           
+           
+            morphologyEx(prueba,prueba,MORPH_CLOSE,elemento);
             on_trackbarHmin( alpha_slider1, 0);
             on_trackbarSmin( alpha_slider2, 0);
             on_trackbarVmin( alpha_slider3, 0);
@@ -247,12 +256,12 @@ int main(int, char**) {
             on_trackbarCbmax( alpha_slider12, 0);
 
             detector.drawSkinColorSampler(frameOut);
-            foreground = detector.getForeground(hsv);
-            detector.removeFaces(hsv, foreground);
+            foreground = detector.getForeground(prueba);
+            detector.removeFaces(prueba, foreground);
             handMask = detector.getSkinMask(foreground);
             fingerCountDebug = detector.findFingersCount(handMask, frameOut); 
            
-            imshow("Original", hsv);
+            imshow("Original", prueba);
             imshow("handMask", handMask);
             imshow("handDetection", fingerCountDebug);
             imshow("output", frameOut);
