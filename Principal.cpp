@@ -5,6 +5,123 @@ using namespace std;
 //CascadeClassifier face_cascade;  // Para rostros
 //CascadeClassifier eyes_cascade; // Para ojos
 
+int v=0;
+void on_trackbarHmin( int , void *) {
+    // Creamos el structring element (que puede ser una cruz, un rectángulo o una elipse):
+    // MORPH_CROSS, MORPH_RECT, MORPH_ELLIPSE
+    //Mat elemento = getStructuringElement(MORPH_CROSS, Size(alpha_slider+1,alpha_slider+1), Point(-1,-1));
+    // Aplicamos la operación de dilatación
+    //morphologyEx(imagen, frame, MORPH_DILATE,elemento);
+
+    cout << "trackbarsmin " << v << endl; 
+}
+
+void on_trackbarSmin( int , void *) {
+    // Creamos el structring element (que puede ser una cruz, un rectángulo o una elipse):
+    // MORPH_CROSS, MORPH_RECT, MORPH_ELLIPSE
+    //Mat elemento = getStructuringElement(MORPH_CROSS, Size(alpha_slider+1,alpha_slider+1), Point(-1,-1));
+    // Aplicamos la operación de dilatación
+    //morphologyEx(imagen, frame, MORPH_DILATE,elemento);
+
+    cout << "trackbarsmin " << v << endl; 
+}
+
+void on_trackbarVmin( int , void *) {
+    // Creamos el structring element (que puede ser una cruz, un rectángulo o una elipse):
+    // MORPH_CROSS, MORPH_RECT, MORPH_ELLIPSE
+    //Mat elemento = getStructuringElement(MORPH_CROSS, Size(alpha_slider+1,alpha_slider+1), Point(-1,-1));
+    // Aplicamos la operación de dilatación
+    //morphologyEx(imagen, frame, MORPH_DILATE,elemento);
+
+    cout << "trackbarvmin " << v << endl; 
+    
+}
+
+void on_trackbarHmax( int , void *) {
+    // Creamos el structring element (que puede ser una cruz, un rectángulo o una elipse):
+    // MORPH_CROSS, MORPH_RECT, MORPH_ELLIPSE
+    //Mat elemento = getStructuringElement(MORPH_CROSS, Size(alpha_slider+1,alpha_slider+1), Point(-1,-1));
+    // Aplicamos la operación de dilatación
+    //morphologyEx(imagen, frame, MORPH_DILATE,elemento); 
+ 
+    cout << "trackbarHmax " << v << endl; 
+}
+
+void on_trackbarSmax( int , void *) {
+    // Creamos el structring element (que puede ser una cruz, un rectángulo o una elipse):
+    // MORPH_CROSS, MORPH_RECT, MORPH_ELLIPSE
+    //Mat elemento = getStructuringElement(MORPH_CROSS, Size(alpha_slider+1,alpha_slider+1), Point(-1,-1));
+    // Aplicamos la operación de dilatación
+    //morphologyEx(imagen, frame, MORPH_DILATE,elemento);
+  
+    cout << "trackbarsmax " << v << endl; 
+}
+
+void on_trackbarVmax( int , void *) {
+    // Creamos el structring element (que puede ser una cruz, un rectángulo o una elipse):
+    // MORPH_CROSS, MORPH_RECT, MORPH_ELLIPSE
+    //Mat elemento = getStructuringElement(MORPH_CROSS, Size(alpha_slider+1,alpha_slider+1), Point(-1,-1));
+    // Aplicamos la operación de dilatación
+    //morphologyEx(imagen, frame, MORPH_DILATE,elemento);
+    cout << "trackbarvmax " << v << endl; 
+}
+
+void on_trackbarYmin( int , void *) {
+    // Creamos el structring element (que puede ser una cruz, un rectángulo o una elipse):
+    // MORPH_CROSS, MORPH_RECT, MORPH_ELLIPSE
+    //Mat elemento = getStructuringElement(MORPH_CROSS, Size(alpha_slider+1,alpha_slider+1), Point(-1,-1));
+    // Aplicamos la operación de dilatación
+    //morphologyEx(imagen, frame, MORPH_DILATE,elemento);
+    cout << "on_trackbarYmin " << v << endl; 
+}    
+
+void on_trackbarCrmin( int , void *) {
+    // Creamos el structring element (que puede ser una cruz, un rectángulo o una elipse):
+    // MORPH_CROSS, MORPH_RECT, MORPH_ELLIPSE
+    //Mat elemento = getStructuringElement(MORPH_CROSS, Size(alpha_slider+1,alpha_slider+1), Point(-1,-1));
+    // Aplicamos la operación de dilatación
+    //morphologyEx(imagen, frame, MORPH_DILATE,elemento);
+    cout << "on_trackbarcrmin " << v << endl; 
+}
+
+void on_trackbarCbmin( int , void *) {
+    // Creamos el structring element (que puede ser una cruz, un rectángulo o una elipse):
+    // MORPH_CROSS, MORPH_RECT, MORPH_ELLIPSE
+    //Mat elemento = getStructuringElement(MORPH_CROSS, Size(alpha_slider+1,alpha_slider+1), Point(-1,-1));
+    // Aplicamos la operación de dilatación
+    //morphologyEx(imagen, frame, MORPH_DILATE,elemento);
+    cout << "on_trackbarcbmin " << v << endl; 
+    
+}
+
+void on_trackbarYmax( int , void *) {
+    // Creamos el structring element (que puede ser una cruz, un rectángulo o una elipse):
+    // MORPH_CROSS, MORPH_RECT, MORPH_ELLIPSE
+    //Mat elemento = getStructuringElement(MORPH_CROSS, Size(alpha_slider+1,alpha_slider+1), Point(-1,-1));
+    // Aplicamos la operación de dilatación
+    //morphologyEx(imagen, frame, MORPH_DILATE,elemento);    
+    cout << "on_trackbarYmax " << v << endl; 
+}
+
+void on_trackbarCrmax( int , void *) {
+    // Creamos el structring element (que puede ser una cruz, un rectángulo o una elipse):
+    // MORPH_CROSS, MORPH_RECT, MORPH_ELLIPSE
+    //Mat elemento = getStructuringElement(MORPH_CROSS, Size(alpha_slider+1,alpha_slider+1), Point(-1,-1));
+    // Aplicamos la operación de dilatación
+    //morphologyEx(imagen, frame, MORPH_DILATE,elemento);
+    cout << "on_trackbarcrmax " << v << endl; 
+}
+
+void on_trackbarCbmax( int , void *) {
+
+    // Creamos el structring element (que puede ser una cruz, un rectángulo o una elipse):
+    // MORPH_CROSS, MORPH_RECT, MORPH_ELLIPSE
+    //Mat elemento = getStructuringElement(MORPH_CROSS, Size(alpha_slider+1,alpha_slider+1), Point(-1,-1));
+    // Aplicamos la operación de dilatación
+    //morphologyEx(imagen, frame, MORPH_DILATE,elemento);
+    cout << "on_trackbarcbmax " << v << endl; 
+    
+}
 
 int main(int, char**) {
 
@@ -61,18 +178,18 @@ int main(int, char**) {
     sprintf(TrackbarName11, "Cr-Max %d", num.alpha_slider_max11);
     sprintf(TrackbarName11, "Cb-Max %d", num.alpha_slider_max12);
 
-    createTrackbar(TrackbarName1, "Original", &num.alpha_slider1, num.alpha_slider_max1, num.on_trackbarHmin);
-    createTrackbar(TrackbarName2, "Original", &num.alpha_slider2, num.alpha_slider_max2, num.on_trackbarSmin);
-    createTrackbar(TrackbarName3, "Original", &num.alpha_slider3, num.alpha_slider_max3, num.on_trackbarVmin);
-    createTrackbar(TrackbarName4, "Original", &num.alpha_slider4, num.alpha_slider_max4, num.on_trackbarHmax);
-    createTrackbar(TrackbarName5, "Original", &num.alpha_slider5, num.alpha_slider_max5, num.on_trackbarSmax);
-    createTrackbar(TrackbarName6, "Original", &num.alpha_slider6, num.alpha_slider_max6, num.on_trackbarVmax);
-    createTrackbar(TrackbarName7, "Original", &num.alpha_slider7, num.alpha_slider_max7, num.on_trackbarYmin);
-    createTrackbar(TrackbarName8, "Original", &num.alpha_slider8, num.alpha_slider_max8, num.on_trackbarCrmin);
-    createTrackbar(TrackbarName9, "Original", &num.alpha_slider9, num.alpha_slider_max9, num.on_trackbarCbmin);
-    createTrackbar(TrackbarName10, "Original", &num.alpha_slider10, num.alpha_slider_max10, num.on_trackbarYmax);
-    createTrackbar(TrackbarName11, "Original", &num.alpha_slider11, num.alpha_slider_max11, num.on_trackbarCrmax);
-    createTrackbar(TrackbarName12, "Original", &num.alpha_slider12, num.alpha_slider_max12, num.on_trackbarCbmax);
+    createTrackbar(TrackbarName1, "Original", &num.alpha_slider1, num.alpha_slider_max1, on_trackbarHmin);
+    createTrackbar(TrackbarName2, "Original", &num.alpha_slider2, num.alpha_slider_max2, on_trackbarSmin);
+    createTrackbar(TrackbarName3, "Original", &num.alpha_slider3, num.alpha_slider_max3, on_trackbarVmin);
+    createTrackbar(TrackbarName4, "Original", &num.alpha_slider4, num.alpha_slider_max4, on_trackbarHmax);
+    createTrackbar(TrackbarName5, "Original", &num.alpha_slider5, num.alpha_slider_max5, on_trackbarSmax);
+    createTrackbar(TrackbarName6, "Original", &num.alpha_slider6, num.alpha_slider_max6, on_trackbarVmax);
+    createTrackbar(TrackbarName7, "Original", &num.alpha_slider7, num.alpha_slider_max7, on_trackbarYmin);
+    createTrackbar(TrackbarName8, "Original", &num.alpha_slider8, num.alpha_slider_max8, on_trackbarCrmin);
+    createTrackbar(TrackbarName9, "Original", &num.alpha_slider9, num.alpha_slider_max9, on_trackbarCbmin);
+    createTrackbar(TrackbarName10, "Original", &num.alpha_slider10, num.alpha_slider_max10, on_trackbarYmax);
+    createTrackbar(TrackbarName11, "Original", &num.alpha_slider11, num.alpha_slider_max11, on_trackbarCrmax);
+    createTrackbar(TrackbarName12, "Original", &num.alpha_slider12, num.alpha_slider_max12, on_trackbarCbmax);
 
     if(videoCapture.isOpened()){
         Prueba detector;
@@ -83,18 +200,18 @@ int main(int, char**) {
             frameOut = frame.clone();
 
 
-            num.on_trackbarHmin(num.alpha_slider1, 0);
-            num.on_trackbarSmin(num.alpha_slider2, 0);
-            num.on_trackbarVmin(num.alpha_slider3, 0);
-            num.on_trackbarHmax(num.alpha_slider4, 0);
-            num.on_trackbarSmax(num.alpha_slider5, 0);
-            num.on_trackbarVmax(num.alpha_slider6, 0);
-            num.on_trackbarYmin(num.alpha_slider7, 0);
-            num.on_trackbarCrmin(num.alpha_slider8, 0);
-            num.on_trackbarCbmin(num.alpha_slider9, 0);
-            num.on_trackbarYmax(num.alpha_slider10, 0);
-            num.on_trackbarCrmax(num.alpha_slider11, 0);
-            num.on_trackbarCbmax(num.alpha_slider12, 0);
+            on_trackbarHmin(num.alpha_slider1, 0);
+            on_trackbarSmin(num.alpha_slider2, 0);
+            on_trackbarVmin(num.alpha_slider3, 0);
+            on_trackbarHmax(num.alpha_slider4, 0);
+            on_trackbarSmax(num.alpha_slider5, 0);
+            on_trackbarVmax(num.alpha_slider6, 0);
+            on_trackbarYmin(num.alpha_slider7, 0);
+            on_trackbarCrmin(num.alpha_slider8, 0);
+            on_trackbarCbmin(num.alpha_slider9, 0);
+            on_trackbarYmax(num.alpha_slider10, 0);
+            on_trackbarCrmax(num.alpha_slider11, 0);
+            on_trackbarCbmax(num.alpha_slider12, 0);
 
             detector.drawSkinColorSampler(frameOut);
             foreground = detector.getForeground(frame);
