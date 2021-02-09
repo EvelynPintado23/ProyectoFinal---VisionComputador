@@ -45,7 +45,7 @@ void on_trackbarHmin( int , void *) {
     //morphologyEx(imagen, frame, MORPH_DILATE,elemento);
     cvtColor(hsv,hsv ,COLOR_BGR2HSV);
    
-    inRange(hsv, Scalar(alpha_slider1,0,0),Scalar(alpha_slider1+20,0,0),hsv);
+    inRange(hsv, Scalar(alpha_slider1,alpha_slider2,alpha_slider3),Scalar(alpha_slider4,alpha_slider5,alpha_slider6),hsv);
     
 }
 
