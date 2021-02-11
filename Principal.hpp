@@ -18,9 +18,9 @@
 //Librerias del descriptor
 #include <opencv2/xfeatures2d/nonfree.hpp>
 #include <opencv2/features2d/features2d.hpp>
+
+
 #pragma once
-
-
 
 using namespace std;
 using namespace cv;
@@ -63,25 +63,13 @@ class Prueba{
 		void calibrate1(Mat input);
 		Mat getForeground(Mat input);
         void removeFaces(Mat input, Mat output);
+		Mat bordes(Mat i);
         //Operaciones(void);
         //void FaceDetector(void);
         //void FingerCount(void);
         Mat findFingersCount(Mat input_image, Mat frame);
         void drawSkinColorSampler(Mat input);
         Mat getSkinMask(Mat imput);
-		
-		/*static void on_trackbarHmin( int, void* );
-		static void on_trackbarSmin( int, void* );
-		static void on_trackbarVmin( int, void* );
-		static void on_trackbarYmin( int, void* );
-		static void on_trackbarCrmin( int, void* );
-		static void on_trackbarCbmin( int, void* );
-		static void on_trackbarHmax( int, void* );
-		static void on_trackbarSmax( int, void* );
-		static void on_trackbarVmax( int, void* );
-		static void on_trackbarYmax( int, void* );
-		static void on_trackbarCrmax( int, void* );
-		static void on_trackbarCbmax( int, void* );*/
 
 		int hLowThreshold = 0;
 		int hHighThreshold = 0;
@@ -92,8 +80,7 @@ class Prueba{
 		bool calibrated = false;
 		bool calibrated1 = false;
 
-		
-    
+
 		double alpha1;
 		double alpha2;
 		double alpha3;

@@ -11,6 +11,7 @@ CascadeClassifier faceCascadeClassifier;
 #define BOUNDING_RECT_FINGER_SIZE_SCALING 0.3
 #define BOUNDING_RECT_NEIGHBOR_DISTANCE_SCALING 0.05
 
+
 Prueba::Prueba(void) {
     
     //SKINDETECTOR
@@ -215,6 +216,190 @@ Rect getFaceRect(Mat input) {
 
 // Esto es FINGERCOUNT
 
+int hMin = 106;
+int sMin = 16;
+int vMin = 15;
+
+int hMax = 239;
+int sMax = 248;
+int vMax = 130;
+
+void eventoTrackThreshold(int v, void *pP){
+    cout << "Nuevo valor: " << v << endl;
+}
+
+Mat Prueba::bordes(Mat i){
+	
+	//int hMin=10, sMin=11, vMin=121, hMax=30, sMax=255, vMax=255;
+
+	createTrackbar("H-Min", "Original", &hMin,  125, eventoTrackThreshold, NULL);
+    createTrackbar("S-Min", "Original", &sMin,  125, eventoTrackThreshold, NULL);
+    createTrackbar("V-Min", "Original", &vMin,  125, eventoTrackThreshold, NULL);
+    createTrackbar("H-Max", "Original", &hMax,  180, eventoTrackThreshold, NULL);
+    createTrackbar("S-Max", "Original", &sMax,  255, eventoTrackThreshold, NULL);
+    createTrackbar("V-Max", "Original", &vMax,  255, eventoTrackThreshold, NULL);
+
+	Mat ROI;
+    Mat ROIconvertida;
+    Mat binarizada;
+    Mat bordes;
+    
+    Mat elementoBorrarPuntos = getStructuringElement(MORPH_CROSS, Size(9,9), Point(-1,-1));
+    Mat elementoInundar = getStructuringElement(MORPH_ELLIPSE, Size(7, 7), Point(-1,-1));
+    
+    Mat frame = i;
+	
+	vector <Mat> canales;
+	split(frame, canales);
+
+	//(frame, frame, Size(), 0.45, 0.45);
+	Rect area = Rect((frame.cols/2)+95,65,(frame.cols/2)-105,frame.rows-115);   
+	ROI = frame(area);
+	
+	rectangle(i, area, Scalar(0,255,0) );
+	
+	
+	cvtColor(ROI, ROIconvertida, COLOR_BGR2HSV);
+
+	GaussianBlur(ROIconvertida, ROIconvertida, Size(9,9), 1.7,1.7);
+	imshow("CONVERTIDA", ROIconvertida);	
+	
+	// Threshold propio de OpenCV
+	inRange(ROIconvertida,Scalar(hMin,sMin,vMin),Scalar(hMax,sMax,vMax),binarizada);        
+	
+	imshow("Binar",binarizada);
+	Canny(binarizada, bordes, 50, 150, 3);
+	morphologyEx(bordes, bordes, MORPH_CLOSE, elementoInundar);
+	imshow("Original",i);
+	return bordes;
+
+}
+
+void guardarPuntos(vector<Vec4i> defects, string path){
+
+	cout<<"entro"<<endl;
+	ofstream file;
+	file.open(path+".txt");
+	for (int i=0; i<defects.size();i++){
+		file<<defects[i][0]+"\n";
+		file<<defects[i][1]+"\n";
+		file<<defects[i][2]+"\n";
+		file<<defects[i][3]+"\n";
+	}
+}
+
+void leerGestos(vector<Vec4i> defects){
+
+	vector<Vec4i> resultado1;
+	vector<Vec4i> resultado2;
+	vector<Vec4i> resultado3;
+
+	char cadena[128];
+	ifstream g1("gesto1.txt");
+	ifstream g2("gesto2.txt");
+	ifstream g3("gesto3.txt");
+
+	while(!g1.eof() ){
+		g1 >> cadena;
+		int numero = atoi(cadena);
+		resultado1.push_back(numero);
+	}
+
+	while(!g2.eof() ){
+		g2 >> cadena;
+		int numero = atoi(cadena);
+		resultado2.push_back(numero);
+	}
+
+	while (!g3.eof()) {
+		g3 >> cadena;
+		int numero = atoi(cadena);
+		resultado3.push_back(numero);
+	}
+
+	int cont1=0;
+	int cont2=0;
+	int cont3=0;
+
+	//if(defects.size()==resultado1.size()){
+
+	for (int i=0; i<defects.size();i++){
+		cout << resultado1[i] << " " << defects[i] << endl;  
+			
+		
+		if(resultado1[i][0] == defects[i][0] ){
+			cout << resultado1[i] << " " << defects[i] << endl;  
+			cont1 = cont1+1;
+		}
+		if(resultado1[i][1] == defects[i][1] ){
+			cont1 = cont1+1;
+		}
+		if(resultado1[i][2] == defects[i][2] ){
+			cont1 = cont1+1;
+		}
+		if(resultado1[i][3] == defects[i][3] ){
+			cont1 = cont1+1;
+		}
+	}
+
+//}
+
+//	if(defects.size()==resultado2.size()){
+
+	for (int i=0; i<defects.size();i++){
+		if(resultado2[i][0] == defects[i][0] ){
+			cont2 = cont2+1;
+		}
+		if(resultado2[i][1] == defects[i][1] ){
+			cont2 = cont2+1;
+		}
+		if(resultado2[i][2] == defects[i][2] ){
+			cont2 = cont2+1;
+		}
+		if(resultado2[i][3] == defects[i][3] ){
+			cont2 = cont2+1;
+		}
+	}
+
+//	}
+
+//	if(defects.size()==resultado3.size()){
+
+	for (int i=0; i<defects.size();i++){
+		if(resultado3[i][0] == defects[i][0] ){
+			cont3 = cont3+1;
+		}
+		if(resultado3[i][1] == defects[i][1] ){
+			cont3 = cont3+1;
+		}
+		if(resultado3[i][2] == defects[i][2] ){
+			cont3 = cont3+1;
+		}
+		if(resultado3[i][3] == defects[i][3] ){
+			cont3 = cont3+1;
+		}
+	}
+
+//	}
+	cout<<cont1<<"cont1"<<endl;
+	cout<<cont2<<"cont2"<<endl;
+	cout<<cont3<<"cont3"<<endl;
+
+	if(cont1>cont2 && cont1>cont3){
+		cout<<"gesto1"<<endl;
+	}else if(cont2>cont1 && cont2>cont3){
+		cout<<"gesto2"<<endl;
+	}else if(cont3>cont1 && cont3>cont2){
+		cout<<"gesto3"<<endl;
+	}else{
+		cout<<"ningun gesto encontrado";
+	}
+		
+
+
+}
+
+
 Mat Prueba::findFingersCount(Mat input_image, Mat frame) {
 	Mat contours_image = Mat::zeros(input_image.size(), CV_8UC3);
 
@@ -266,6 +451,18 @@ Mat Prueba::findFingersCount(Mat input_image, Mat frame) {
 		convexityDefects(Mat(contours[biggest_contour_index]), hull_ints, defects);
 	else
 		return contours_image;
+	//cout<<defects.size()<<defects[0]<<defects[1]<<endl;
+
+	int key = waitKey(1);
+
+	if(key == 97) // a
+		guardarPuntos(defects,"gesto1");
+	if(key == 101) // e
+		guardarPuntos(defects,"gesto2");
+	if(key == 102) // f
+		guardarPuntos(defects,"gesto3");
+	if(key == 114) // r
+		leerGestos(defects);
 
 	// we bound the convex hull
 	Rect bounding_rectangle = boundingRect(Mat(hull_points));
@@ -480,21 +677,6 @@ void Prueba::drawVectorPoints(Mat image, vector<Point> points, Scalar color, boo
 	}
 }
 
-// CONTROLES DE ASCPECTO
-/*
-void Prueba::on_trackbarHmin( int v, void *pP) {
-    // Creamos el structring element (que puede ser una cruz, un rectángulo o una elipse):
-    // MORPH_CROSS, MORPH_RECT, MORPH_ELLIPSE
-    //Mat elemento = getStructuringElement(MORPH_CROSS, Size(alpha_slider+1,alpha_slider+1), Point(-1,-1));
-    // Aplicamos la operación de dilatación
-    //morphologyEx(imagen, frame, MORPH_DILATE,elemento); 
-    alpha_slider1 = 0;
-    alpha_slider_max1 = 179;
-    cvtColor(frame,COLOR_BGR2HSV);
-
-    cout << "trackbarHmin " << v << endl;   
-}
-*/
 
 
 
