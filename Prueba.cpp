@@ -216,13 +216,19 @@ Rect getFaceRect(Mat input) {
 
 // Esto es FINGERCOUNT
 
-int hMin = 106;
+int hMin = 16;
 int sMin = 16;
 int vMin = 15;
-
 int hMax = 239;
 int sMax = 248;
 int vMax = 130;
+int yMin = 16;
+int crMin = 16;
+int cbMin = 16;
+int yMax = 235;
+int crMax = 240;
+int cbMax = 240;
+
 
 void eventoTrackThreshold(int v, void *pP){
     cout << "Nuevo valor: " << v << endl;
@@ -238,10 +244,18 @@ Mat Prueba::bordes(Mat i){
     createTrackbar("H-Max", "Original", &hMax,  180, eventoTrackThreshold, NULL);
     createTrackbar("S-Max", "Original", &sMax,  255, eventoTrackThreshold, NULL);
     createTrackbar("V-Max", "Original", &vMax,  255, eventoTrackThreshold, NULL);
+	createTrackbar("Y-Min", "Original", &yMin,  100, eventoTrackThreshold, NULL);
+	createTrackbar("Cr-Min", "Original", &crMin,  128, eventoTrackThreshold, NULL);
+	createTrackbar("Cb-Min", "Original", &cbMin,  100, eventoTrackThreshold, NULL);
+	createTrackbar("Y-Max", "Original", &yMax,  100, eventoTrackThreshold, NULL);
+	createTrackbar("Cr-Max", "Original", &crMax,  255, eventoTrackThreshold, NULL);
+	createTrackbar("Cb-Max", "Original", &cbMax,  255, eventoTrackThreshold, NULL);
 
 	Mat ROI;
     Mat ROIconvertida;
+	Mat ROIconvertida2;
     Mat binarizada;
+	Mat binarizada2;
     Mat bordes;
     
     Mat elementoBorrarPuntos = getStructuringElement(MORPH_CROSS, Size(9,9), Point(-1,-1));
@@ -258,16 +272,21 @@ Mat Prueba::bordes(Mat i){
 	
 	rectangle(i, area, Scalar(0,255,0) );
 	
-	
 	cvtColor(ROI, ROIconvertida, COLOR_BGR2HSV);
-
-	GaussianBlur(ROIconvertida, ROIconvertida, Size(9,9), 1.7,1.7);
+	GaussianBlur(ROIconvertida, ROIconvertida, Size(9,9), 2,2);
 	imshow("CONVERTIDA", ROIconvertida);	
+	inRange(ROIconvertida,Scalar(hMin,sMin,vMin),Scalar(hMax,sMax,vMax),binarizada); 
+	
+	cvtColor(ROI, ROIconvertida2, COLOR_BGR2YCrCb);
+	GaussianBlur(ROIconvertida2, ROIconvertida2, Size(9,9), 2,2);
+	imshow("CONVERTIDA2", ROIconvertida2);
+	inRange(ROIconvertida2,Scalar(yMin,crMin,cbMin),Scalar(yMax,crMax,cbMax),binarizada);  
 	
 	// Threshold propio de OpenCV
-	inRange(ROIconvertida,Scalar(hMin,sMin,vMin),Scalar(hMax,sMax,vMax),binarizada);        
+
+	       
 	
-	imshow("Binar",binarizada);
+	imshow("Binarizada",binarizada);
 	Canny(binarizada, bordes, 50, 150, 3);
 	morphologyEx(bordes, bordes, MORPH_CLOSE, elementoInundar);
 	imshow("Original",i);
@@ -281,24 +300,29 @@ void guardarPuntos(vector<Vec4i> defects, string path){
 	ofstream file;
 	file.open(path+".txt");
 	for (int i=0; i<defects.size();i++){
-		file<<defects[i][0]+"\n";
+		
+		file<<defects[i][0] << " " << defects[i][1] << " " << defects[i][2] << " " << defects[i][3] << " ";
+
+		/*file<<defects[i][0]+"\n";
 		file<<defects[i][1]+"\n";
 		file<<defects[i][2]+"\n";
-		file<<defects[i][3]+"\n";
+		file<<defects[i][3]+"\n";*/
 	}
 }
 
-void leerGestos(vector<Vec4i> defects){
+void leerGestos(){
 
 	vector<Vec4i> resultado1;
 	vector<Vec4i> resultado2;
 	vector<Vec4i> resultado3;
+	vector<Vec4i> nuevo;
 
 	char cadena[128];
 	ifstream g1("gesto1.txt");
 	ifstream g2("gesto2.txt");
 	ifstream g3("gesto3.txt");
-
+	ifstream g4("nuevo.txt");
+	
 	while(!g1.eof() ){
 		g1 >> cadena;
 		int numero = atoi(cadena);
@@ -317,88 +341,108 @@ void leerGestos(vector<Vec4i> defects){
 		resultado3.push_back(numero);
 	}
 
+	while (!g4.eof()) {
+		g4 >> cadena;
+		int numero = atoi(cadena);
+		nuevo.push_back(numero);
+	}
+
 	int cont1=0;
 	int cont2=0;
 	int cont3=0;
+	cout << nuevo.size() << " " << resultado1.size() << " " << resultado2.size() << " " << resultado3.size() ; 
 
-	//if(defects.size()==resultado1.size()){
+	if(nuevo.size()==resultado1.size()){
 
-	for (int i=0; i<defects.size();i++){
-		cout << resultado1[i] << " " << defects[i] << endl;  
+	
+		for (int i=0; i<nuevo.size();i++){
 			
-		
-		if(resultado1[i][0] == defects[i][0] ){
-			cout << resultado1[i] << " " << defects[i] << endl;  
-			cont1 = cont1+1;
+			if(resultado1[i][0] == nuevo[i][0] ){
+				cont1 = cont1+1;
+			}
+			if(resultado1[i][1] == nuevo[i][1] ){
+				cont1 = cont1+1;
+			}
+			if(resultado1[i][2] == nuevo[i][2] ){
+				cont1 = cont1+1;
+			}
+			if(resultado1[i][3] == nuevo[i][3] ){
+				cont1 = cont1+1;
+			}
 		}
-		if(resultado1[i][1] == defects[i][1] ){
-			cont1 = cont1+1;
-		}
-		if(resultado1[i][2] == defects[i][2] ){
-			cont1 = cont1+1;
-		}
-		if(resultado1[i][3] == defects[i][3] ){
-			cont1 = cont1+1;
-		}
+
 	}
 
-//}
+	if(nuevo.size()==resultado2.size()){
 
-//	if(defects.size()==resultado2.size()){
+	
+		for (int i=0; i<nuevo.size();i++){
+			
+			if(resultado2[i][0] == nuevo[i][0] ){
+				cont2 = cont2+1;
+			}
+			if(resultado2[i][1] == nuevo[i][1] ){
+				cont2 = cont2+1;
+			}
+			if(resultado2[i][2] == nuevo[i][2] ){
+				cont2 = cont2+1;
+			}
+			if(resultado2[i][3] == nuevo[i][3] ){
+				cont2 = cont2+1;
+			}
+		}
 
-	for (int i=0; i<defects.size();i++){
-		if(resultado2[i][0] == defects[i][0] ){
-			cont2 = cont2+1;
-		}
-		if(resultado2[i][1] == defects[i][1] ){
-			cont2 = cont2+1;
-		}
-		if(resultado2[i][2] == defects[i][2] ){
-			cont2 = cont2+1;
-		}
-		if(resultado2[i][3] == defects[i][3] ){
-			cont2 = cont2+1;
-		}
 	}
 
-//	}
 
-//	if(defects.size()==resultado3.size()){
+	if(nuevo.size()==resultado3.size()){
 
-	for (int i=0; i<defects.size();i++){
-		if(resultado3[i][0] == defects[i][0] ){
-			cont3 = cont3+1;
+	
+		for (int i=0; i<nuevo.size();i++){
+			
+			if(resultado3[i][0] == nuevo[i][0] ){
+				cont3 = cont3+1;
+			}
+			if(resultado3[i][1] == nuevo[i][1] ){
+				cont3 = cont3+1;
+			}
+			if(resultado3[i][2] == nuevo[i][2] ){
+				cont3 = cont3+1;
+			}
+			if(resultado3[i][3] == nuevo[i][3] ){
+				cont3 = cont3+1;
+			}
 		}
-		if(resultado3[i][1] == defects[i][1] ){
-			cont3 = cont3+1;
-		}
-		if(resultado3[i][2] == defects[i][2] ){
-			cont3 = cont3+1;
-		}
-		if(resultado3[i][3] == defects[i][3] ){
-			cont3 = cont3+1;
-		}
+
 	}
 
-//	}
 	cout<<cont1<<"cont1"<<endl;
 	cout<<cont2<<"cont2"<<endl;
 	cout<<cont3<<"cont3"<<endl;
 
+	Mat imagen_resultado(300,250, CV_8UC3, Scalar(255,255,255));
+ 	Point center_bounding_rect(50,50);
+	Scalar color_purple(200,25,75);
 	if(cont1>cont2 && cont1>cont3){
 		cout<<"gesto1"<<endl;
+		putText(imagen_resultado, "Gesto 1", center_bounding_rect, FONT_HERSHEY_PLAIN, 1, Scalar(255,25,75));
+
 	}else if(cont2>cont1 && cont2>cont3){
 		cout<<"gesto2"<<endl;
+		putText(imagen_resultado, "Gesto 2", center_bounding_rect, FONT_HERSHEY_PLAIN, 1, Scalar(255,25,75));
+
 	}else if(cont3>cont1 && cont3>cont2){
 		cout<<"gesto3"<<endl;
+		putText(imagen_resultado, "Gesto 3", center_bounding_rect, FONT_HERSHEY_PLAIN, 1, Scalar(255,25,75));
+
 	}else{
 		cout<<"ningun gesto encontrado";
+		putText(imagen_resultado, "NO se reconoce ningun gesto", center_bounding_rect, FONT_HERSHEY_PLAIN, 1, Scalar(255,25,75));
 	}
-		
-
+	
+	imshow("Resultado", imagen_resultado);
 
 }
-
 
 Mat Prueba::findFingersCount(Mat input_image, Mat frame) {
 	Mat contours_image = Mat::zeros(input_image.size(), CV_8UC3);
@@ -461,9 +505,11 @@ Mat Prueba::findFingersCount(Mat input_image, Mat frame) {
 		guardarPuntos(defects,"gesto2");
 	if(key == 102) // f
 		guardarPuntos(defects,"gesto3");
-	if(key == 114) // r
-		leerGestos(defects);
+	if(key == 114){ // r
 
+		guardarPuntos(defects,"nuevo");
+		leerGestos();
+	}
 	// we bound the convex hull
 	Rect bounding_rectangle = boundingRect(Mat(hull_points));
 
